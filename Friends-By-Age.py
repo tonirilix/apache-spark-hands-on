@@ -16,5 +16,7 @@ totalsByAge = rdd.mapValues(lambda x: (x, 1)).reduceByKey(lambda x, y: (x[0] + y
 averagesByAge = totalsByAge.mapValues(lambda x: x[0] / x[1])
 results = averagesByAge.collect()
 
-for result in results:
+sortedResults = collections.OrderedDict(sorted(results, key=lambda t: t[1]))
+
+for result in sortedResults.iteritems():
     print result
