@@ -12,11 +12,12 @@ sc = SparkContext(conf = conf)
 
 lines = sc.textFile("04_1_customer-orders.csv")
 parsedLines = lines.map(parseLine)
-sumarized = parsedLines.reduceByKey(lambda x, y: x + y).sortByKey()
+sumarized = parsedLines.reduceByKey(lambda x, y: x + y)
+wordCountsSorted = sumarized.map(lambda (x,y): (y,x)).sortByKey()
 
-results = sumarized.collect()
+results = wordCountsSorted.collect()
 
 for result in results:
-    customer = str(result[0])
-    price = str(result[1])
-    print customer+ ":\t\t" + price
+    price = str(result[0])
+    customer = str(result[1])
+    print price + ":\t\t" + customer
